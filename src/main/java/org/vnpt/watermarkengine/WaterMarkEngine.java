@@ -173,4 +173,10 @@ public class WaterMarkEngine {
         return decryptedData;
     }
 
+    public static String encryptSecurityData(String data, String secret_key){
+        String encryptData = AES256.encrypt(data, secret_key);
+        return encryptData;
+    }
+
+
 }
