@@ -9,7 +9,7 @@ import java.io.File;
 import java.net.URL;
 
 public class WaterMarkEngine {
-    public static WaterMark generateWaterMarkText(String base64OrUrl, int divx, int divy, int rotate, int security, String secret_key, String content, String pathFont) throws Exception {
+    public static String generateWaterMarkText(String base64OrUrl, int divx, int divy, int rotate, int security, String secret_key, String content, String pathFont) throws Exception {
         //Declare variable
         int isUrlFile = 0;
         String data = content;
@@ -73,17 +73,11 @@ public class WaterMarkEngine {
         String base64 = Base64.encodeBytes(baos.toByteArray());
         baos.close();
 
-
-        WaterMark wt = new WaterMark();
-        wt.setBase64File(base64);
-        if(security == 1)
-            wt.setSecurityData(AES256.encrypt(content, secret_key));
-
-        return wt;
+        return base64;
     }
 
 
-    public static WaterMark generateWaterMarkImage(String base64OrUrl, int divx, int divy, int rotate, String base64OrUrlImage, int security, String secret_key, String content, String pathFont) throws Exception {
+    public static String generateWaterMarkImage(String base64OrUrl, int divx, int divy, int rotate, String base64OrUrlImage, int security, String secret_key, String content, String pathFont) throws Exception {
         //Declare variable
         int isUrlFile = 0;
         int isUrlImage = 0;
@@ -160,12 +154,7 @@ public class WaterMarkEngine {
         String base64 = Base64.encodeBytes(baos.toByteArray());
         baos.close();
 
-        WaterMark wt = new WaterMark();
-        wt.setBase64File(base64);
-        if(security == 1)
-            wt.setSecurityData(AES256.encrypt(content, secret_key));
-
-        return wt;
+        return base64;
     }
 
     public static String decryptSecurityData(String data, String secret_key){
