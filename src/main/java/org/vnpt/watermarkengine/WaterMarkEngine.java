@@ -5,13 +5,10 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.codec.Base64;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.net.URL;
 
 public class WaterMarkEngine {
-    public static String generateWaterMarkText(String base64OrUrl, int divx, int divy, int rotate, int security, String secret_key, String content, String pathFont) throws Exception {
+    public static String generateWaterMarkText(String base64, int divx, int divy, int rotate, int security, String content, String pathFont) throws Exception {
         //Declare variable
-        int isUrlFile = 0;
         String data = content;
 
         // Set default value if variable is null
@@ -22,23 +19,14 @@ public class WaterMarkEngine {
                 data += content + " ";
             }
         }
-        if (base64OrUrl.contains("http")) isUrlFile = 1;
-        if (security == 1) rotate = 45;
+        if (security == 1) rotate = 40;
 
-        PdfReader reader = null;
-        if (isUrlFile == 1) {
-            URL fromUrl = new File(base64OrUrl).toURI().toURL();
-            reader = new PdfReader(fromUrl);
-
-        } else {
-            reader = new PdfReader(Base64.decode(base64OrUrl));
-        }
-
+        PdfReader reader = new PdfReader(Base64.decode(base64));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfStamper stamper = new PdfStamper(reader, baos);
 
         BaseFont bf = BaseFont.createFont(pathFont + "/Helvetica.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font FONT = new Font(bf, 34, Font.NORMAL, new GrayColor(0.5f));
+        Font FONT = new Font(bf, 17, Font.NORMAL, new GrayColor(0.5f));
         Phrase p = new Phrase(data, FONT);
 
         // properties
@@ -70,17 +58,16 @@ public class WaterMarkEngine {
         stamper.close();
         reader.close();
 
-        String base64 = Base64.encodeBytes(baos.toByteArray());
+        String base64pdf = Base64.encodeBytes(baos.toByteArray());
         baos.close();
 
-        return base64;
+        return base64pdf;
+
     }
 
 
-    public static String generateWaterMarkImage(String base64OrUrl, int divx, int divy, int rotate, String base64OrUrlImage, int security, String secret_key, String content, String pathFont) throws Exception {
+    public static String generateWaterMarkImage(String base64, int divx, int divy, int rotate, String base64Image, int security, String content, String pathFont) throws Exception {
         //Declare variable
-        int isUrlFile = 0;
-        int isUrlImage = 0;
         String data = content;
 
         // Set default value if variable is null
@@ -91,32 +78,20 @@ public class WaterMarkEngine {
                 data += content + " ";
             }
         }
-        if (base64OrUrl.contains("http")) isUrlFile = 1;
-        if (base64OrUrlImage.contains("http")) isUrlImage = 1;
+        if (security == 1) rotate = 40;
 
 
-        PdfReader reader = null;
-        if (isUrlFile == 1) {
-            URL fromUrl = new File(base64OrUrl).toURI().toURL();
-            reader = new PdfReader(fromUrl);
-
-        } else {
-            reader = new PdfReader(Base64.decode(base64OrUrl));
-        }
+        PdfReader reader = new PdfReader(Base64.decode(base64));
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfStamper stamper = new PdfStamper(reader, baos);
 
         BaseFont bf = BaseFont.createFont(pathFont + "/Helvetica.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font FONT = new Font(bf, 34, Font.NORMAL, new GrayColor(0.5f));
+        Font FONT = new Font(bf, 17, Font.NORMAL, new GrayColor(0.5f));
         Phrase p = new Phrase(data, FONT);
 
         // image watermark
-        Image img = null;
-        if (isUrlImage == 1)
-            img = Image.getInstance(base64OrUrlImage);
-        else
-            img = Image.getInstance(Base64.decode(base64OrUrlImage));
+        Image img = Image.getInstance(Base64.decode(base64Image));
 
         float w = img.getScaledWidth();
         float h = img.getScaledHeight();
@@ -151,18 +126,18 @@ public class WaterMarkEngine {
         stamper.close();
         reader.close();
 
-        String base64 = Base64.encodeBytes(baos.toByteArray());
+        String base64pdf = Base64.encodeBytes(baos.toByteArray());
         baos.close();
 
-        return base64;
+        return base64pdf;
     }
 
-    public static String decryptSecurityData(String data, String secret_key){
+    public static String decryptSecurityData(String data, String secret_key) {
         String decryptedData = AES256.decrypt(data, secret_key);
         return decryptedData;
     }
 
-    public static String encryptSecurityData(String data, String secret_key){
+    public static String encryptSecurityData(String data, String secret_key) {
         String encryptData = AES256.encrypt(data, secret_key);
         return encryptData;
     }
