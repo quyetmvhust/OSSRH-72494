@@ -1,4 +1,4 @@
-package org.vnpt.watermarkengine;
+package org.watermark.engine;
 
 
 import javax.crypto.Cipher;

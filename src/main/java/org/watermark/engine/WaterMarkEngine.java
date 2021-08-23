@@ -1,4 +1,4 @@
-package org.vnpt.watermarkengine;
+package org.watermark.engine;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
