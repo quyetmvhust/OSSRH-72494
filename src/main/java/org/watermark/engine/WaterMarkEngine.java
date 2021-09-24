@@ -14,11 +14,11 @@ public class WaterMarkEngine {
         // Set default value if variable is null
         if (divx == 0) divx = 2;
         if (divy == 0) divy = 2;
-        if (security == 1) {
-            for (int i = 0; i < 30; i++) {
-                data += content + " ";
-            }
+
+        for (int i = 0; i < 30; i++) {
+            data += content + " ";
         }
+
         if (security == 1) rotate = 40;
 
         PdfReader reader = new PdfReader(Base64.decode(base64));
@@ -73,10 +73,8 @@ public class WaterMarkEngine {
         // Set default value if variable is null
         if (divx == 0) divx = 2;
         if (divy == 0) divy = 2;
-        if (security == 1) {
-            for (int i = 0; i < 30; i++) {
-                data += content + " ";
-            }
+        for (int i = 0; i < 30; i++) {
+            data += content + " ";
         }
         if (security == 1) rotate = 40;
 
