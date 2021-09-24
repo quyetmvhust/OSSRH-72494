@@ -7,7 +7,7 @@ import com.itextpdf.text.pdf.codec.Base64;
 import java.io.ByteArrayOutputStream;
 
 public class WaterMarkEngine {
-    public static String generateWaterMarkText(String base64, int divx, int divy, int rotate, int security, String content, String pathFont) throws Exception {
+    public static String generateWaterMarkText(String base64, int divx, int divy, int rotate, int security, String content, int fontsize, String pathFont) throws Exception {
         //Declare variable
         String data = content;
 
@@ -26,7 +26,7 @@ public class WaterMarkEngine {
         PdfStamper stamper = new PdfStamper(reader, baos);
 
         BaseFont bf = BaseFont.createFont(pathFont + "/Helvetica.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font FONT = new Font(bf, 17, Font.NORMAL, new GrayColor(0.5f));
+        Font FONT = new Font(bf, fontsize, Font.NORMAL, new GrayColor(0.5f));
         Phrase p = new Phrase(data, FONT);
 
         // properties
@@ -58,7 +58,7 @@ public class WaterMarkEngine {
         stamper.close();
         reader.close();
 
-        String base64pdf = Base64.encodeBytes(baos.toByteArray());
+        String base64pdf = java.util.Base64.getEncoder().encodeToString(baos.toByteArray());
         baos.close();
 
         return base64pdf;
@@ -66,7 +66,7 @@ public class WaterMarkEngine {
     }
 
 
-    public static String generateWaterMarkImage(String base64, int divx, int divy, int rotate, String base64Image, int security, String content, String pathFont) throws Exception {
+    public static String generateWaterMarkImage(String base64, int divx, int divy, int rotate, String base64Image, int security, String content, int fontsize, String pathFont) throws Exception {
         //Declare variable
         String data = content;
 
@@ -87,7 +87,7 @@ public class WaterMarkEngine {
         PdfStamper stamper = new PdfStamper(reader, baos);
 
         BaseFont bf = BaseFont.createFont(pathFont + "/Helvetica.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font FONT = new Font(bf, 17, Font.NORMAL, new GrayColor(0.5f));
+        Font FONT = new Font(bf, fontsize, Font.NORMAL, new GrayColor(0.5f));
         Phrase p = new Phrase(data, FONT);
 
         // image watermark
@@ -126,7 +126,7 @@ public class WaterMarkEngine {
         stamper.close();
         reader.close();
 
-        String base64pdf = Base64.encodeBytes(baos.toByteArray());
+        String base64pdf = java.util.Base64.getEncoder().encodeToString(baos.toByteArray());
         baos.close();
 
         return base64pdf;
