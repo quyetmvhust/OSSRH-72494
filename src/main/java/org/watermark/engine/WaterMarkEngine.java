@@ -19,7 +19,7 @@ public class WaterMarkEngine {
             data += content + " ";
         }
 
-        if (security == 1) rotate = 40;
+        if (fontsize == 0) fontsize = 17;
 
         PdfReader reader = new PdfReader(Base64.decode(base64));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -76,7 +76,7 @@ public class WaterMarkEngine {
         for (int i = 0; i < 30; i++) {
             data += content + " ";
         }
-        if (security == 1) rotate = 40;
+        if (fontsize == 0) fontsize = 17;
 
 
         PdfReader reader = new PdfReader(Base64.decode(base64));
