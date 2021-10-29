@@ -77,6 +77,7 @@ public class WaterMarkEngine {
             data += content + " ";
         }
         if (fontsize == 0) fontsize = 17;
+        if (security == 0) data = "";
 
 
         PdfReader reader = new PdfReader(Base64.decode(base64));
